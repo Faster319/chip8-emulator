@@ -1,0 +1,63 @@
+#pragma once
+#include <string>
+// chip8.h
+
+class Chip8
+{
+	public:
+		Chip8();
+		~Chip8();
+
+		void EmulateCycle();
+		bool LoadGame(const char* game);
+
+		bool drawFlag;
+
+		// Screen has a total of 2048 pixels (64 * 32)
+		unsigned char gfx[64 * 32];
+
+		// Chip 8 has HEX based keypad (0x0-0xF)
+		unsigned char key[16];
+
+	private:
+		void Initialise();
+
+		// Chip 8's opcodes are two bytes long so use an unsigned short as that is two bytes long
+		unsigned short opcode;
+		// Index register, program counter and stack pointer
+		unsigned short I;
+		unsigned short pc;
+		unsigned short sp;
+
+		// Chip 8 has 4K memory in total
+		unsigned char memory[4096];
+		// Stack and stack pointer
+		unsigned short stack[16];
+		// Chip 8 has 15 8-bit registers, 16th register is used for the 'carry flag'
+		unsigned char V[16];
+
+		// Timing registers
+		unsigned char delayTimer;
+		unsigned char soundTimer;
+
+		// Chip 8 font set
+		unsigned char chip8_fontset[80] =
+		{
+		  0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+		  0x20, 0x60, 0x20, 0x20, 0x70, // 1
+		  0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+		  0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+		  0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+		  0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+		  0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+		  0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+		  0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+		  0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+		  0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+		  0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+		  0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+		  0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+		  0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+		  0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+		};
+};
